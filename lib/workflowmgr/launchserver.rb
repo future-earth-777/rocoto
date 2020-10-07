@@ -58,8 +58,8 @@ module WorkflowMgr
 
       # Read the URI and pid of the server from the read end of the pipe we just created
       WorkflowMgr.timeout(10) do
-        uri=rd.gets
-        server_pid=rd.gets
+        uri=rd.gets.encode('UTF-8', 'binary', {:invalid => :replace, :undef => :replace, :replace => ''})
+        server_pid=rd.gets.encode('UTF-8', 'binary', {:invalid => :replace, :undef => :replace, :replace => ''})
         server_pid.chomp! unless server_pid.nil?
         rd.close
       end

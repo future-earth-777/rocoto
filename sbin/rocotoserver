@@ -47,8 +47,8 @@ DRb.start_service(nil,WorkflowMgr::WorkflowServer.new)
 # Write the URI and our pid to the pipe inherited from our parent
 begin
   uri_io=IO.new(ARGV[3].to_i)  # Open file desriptor passed to us as ARGV[3]
-  uri_io.puts DRb.uri          # Write our URI
-  uri_io.puts Process.pid      # Write our pid
+  uri_io.puts DRb.uri.encode('UTF-8', 'binary', {:invalid => :replace, :undef => :replace, :replace => ''})          # Write our URI
+  uri_io.puts Process.pid.to_s.encode('UTF-8', 'binary', {:invalid => :replace, :undef => :replace, :replace => ''})      # Write our pid
   uri_io.close                 # Close the write end of the pipe, the read end has already been closed
 rescue
   # If we can't write the URI file, shut down the server because nothing is going to be able to talk to it
